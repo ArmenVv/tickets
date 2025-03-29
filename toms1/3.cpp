@@ -1,46 +1,47 @@
-#define CRT_SECURE_NO_WARNINGS
 #include <iostream>
-#include <string.h>
 using namespace std;
-struct BOOK {
-	char author_name[10];
-	char author_surname[20];
-	char book_name[20];
-	char genre[10];
-	char production[20];
-	int prod_year;
-	int pages_num;
+struct date {
+	int day;
+	int month;
+	int year;
+};
+struct WORKER {
+	char surname[20];
+	char name[10];
+	char position[10];
+	int salary;
+	date d;
+
 
 };
-void inputBook(BOOK& k) {
-	cin.getline(k.author_name, 10);
-	cin.getline(k.author_surname, 20);
-	cin.getline(k.book_name, 20);
-	cin.getline(k.genre, 10);
-	cin.getline(k.production, 20);
-	cin >> k.prod_year;
-	cin >> k.pages_num;
+void inputWorkers(WORKER&k) {
 	cin.ignore();
+	cin.getline(k.surname, 20);
+	cin.getline(k.name, 10);
+	cin.getline(k.position, 10);
+	cin >> k.salary;
+	cin >> k.d.day;
+	cin >> k.d.month;
+	cin >> k.d.year;
 }
-bool Tumanyan_2011(BOOK& k) {
-	if (strcmp(k.author_surname, "Tumanyan") == 0 && k.prod_year == 2011)
+bool check(WORKER&k) {
+	if (k.d.year > 1980 && k.salary < 100000)
 		return true;
 	return false;
 }
+void outputWorkers(WORKER &k) {
+	cout << k.surname << " " << k.name << " " << k.position << " "
+		<< k.salary << " " << k.d.day << " " << k.d.month << " " << k.d.year << endl;
+
+}
 int main() {
 	const int n = 3;
-	bool found = false;
-	BOOK Library[n];
-	int i;
-	for (i = 0;i < n;i++) {
-		inputBook(Library[i]);
+	WORKER Table[n];
+	for (int i = 0;i < n;i++)
+		inputWorkers(Table[i]);
+	for (int i = 0;i < n;i++) {
+		if (check(Table[i]))
+			outputWorkers(Table[i]);
 	}
-	for (i = 0;i < n;i++) {
-		if (Tumanyan_2011(Library[i])) {
-			cout << Library[i].author_name << " " << Library[i].author_surname << " " << Library[i].book_name << " " << Library[i].genre << " " << Library[i].production << " " << Library[i].prod_year << " " << Library[i].pages_num << endl;
-			found = true;
-		}
-	}
-	if (!found) cout << "There are no such books!" << endl;
-	return 0;
+
 }
